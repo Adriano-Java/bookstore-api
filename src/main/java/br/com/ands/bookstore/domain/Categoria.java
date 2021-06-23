@@ -1,7 +1,14 @@
 package br.com.ands.bookstore.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * 
@@ -9,14 +16,21 @@ import java.util.List;
  * @date 23 de jun. de 2021
  * @project bookstore
  */
-public class Categoria {
+@Entity
+public class Categoria implements Serializable {
 
+	private static final long serialVersionUID = 2946588307418989815L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String nome;
 	
 	private String descricao;
 	
+	//relação uma categoria para muitos livros [aqui vai a variável categoria criada em {@Livro}
+	@OneToMany(mappedBy = "categoria")
 	private List<Livro> livros = new ArrayList<Livro>();
 	
 	public Categoria() {
