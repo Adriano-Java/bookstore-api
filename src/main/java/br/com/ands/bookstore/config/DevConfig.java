@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import br.com.ands.bookstore.service.DBService;
+import br.com.ands.bookstore.services.DBService;
 
 /**
  * Configuração para o perfil DEV

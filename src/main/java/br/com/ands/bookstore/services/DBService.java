@@ -1,4 +1,4 @@
-package br.com.ands.bookstore.service;
+package br.com.ands.bookstore.services;
 
 import java.util.Arrays;
 

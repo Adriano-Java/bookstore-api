@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  * @author Adriano Neto Da Silva
@@ -30,6 +32,7 @@ public class Livro implements Serializable {
 	
 	private String texto;
 	
+	@JsonIgnore
 	//Muitos livros para cada {@Categoria}
 	@ManyToOne
 	//Por padrão, uma coluna para o id categoria é criada, mas pode-se nomear essa coluna com 'name = coluna_id'
