@@ -1,5 +1,6 @@
 package br.com.ands.bookstore.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,15 @@ public class CategoriaService {
 		Optional<Categoria> objeto = repository.findById(id);
 		return objeto.orElseThrow(() -> new ObjectNotFoundExcepiton(
 				"Objeto não encontrado! ID: " + id + ", Tipo: " + Categoria.class.getName()));
+	}
+	
+	/**
+	 * Recupera uma lista de {@Categoria}, contendo todas
+	 * as categorias persistidas na base de dados.
+	 * 
+	 * @return
+	 */
+	public List<Categoria> findAll() {
+		return repository.findAll();
 	}
 }
