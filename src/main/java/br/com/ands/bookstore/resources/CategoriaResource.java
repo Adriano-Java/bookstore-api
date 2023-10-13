@@ -1,5 +1,8 @@
 package br.com.ands.bookstore.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ands.bookstore.domain.Categoria;
+import br.com.ands.bookstore.dtos.CategoriaDTO;
 import br.com.ands.bookstore.services.CategoriaService;
 
 /**
- * Classe do tipo RestController responsável pelo gerenciamento
- * das categorias de livros via end-points.
+ * Classe do tipo RestController responsável pelo gerenciamento das categorias
+ * de livros via end-points.
  * 
  * A categoria de um livro é representada pela entidade {@Categoria}.
  * 
@@ -25,7 +29,7 @@ import br.com.ands.bookstore.services.CategoriaService;
 public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
-	
+
 	/**
 	 * Método que recupera uma {@Categoria} através de um
 	 * @param id passado por @PathVariable.
@@ -37,5 +41,18 @@ public class CategoriaResource {
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = service.findById(id);
 		return ResponseEntity.ok().body(categoria);
+	}
+
+	/**
+	 * Método que recupera uma lista de {@Categoria}, contendo
+	 * todas as categorias persistidas na base de dados.
+	 * 
+	 * @return
+	 */
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> lista = service.findAll();
+		List<CategoriaDTO> dto = lista.stream().map(objeto -> new CategoriaDTO(objeto)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(dto);
 	}
 }
