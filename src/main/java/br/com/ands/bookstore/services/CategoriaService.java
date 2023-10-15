@@ -45,4 +45,15 @@ public class CategoriaService {
 	public List<Categoria> findAll() {
 		return repository.findAll();
 	}
+	
+	/**
+	 * Método para persistir uma {@Categoria} na base de dados.
+	 * 
+	 * @param cat
+	 * @return
+	 */
+	public Categoria create(Categoria cat) {
+		cat.setId(null);
+		return repository.save(cat);
+	}
 }
