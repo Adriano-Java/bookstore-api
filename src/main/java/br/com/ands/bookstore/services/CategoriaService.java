@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.ands.bookstore.domain.Categoria;
+import br.com.ands.bookstore.dtos.CategoriaDTO;
 import br.com.ands.bookstore.repositories.CategoriaRepository;
 import br.com.ands.bookstore.services.exceptions.ObjectNotFoundExcepiton;
 
@@ -55,5 +56,19 @@ public class CategoriaService {
 	public Categoria create(Categoria cat) {
 		cat.setId(null);
 		return repository.save(cat);
+	}
+
+	/**
+	 * Método para alterar e persistir uma {@Categoria} existente.
+	 * 
+	 * @param id
+	 * @param dto
+	 * @return
+	 */
+	public Categoria update(Integer id, CategoriaDTO dto) {
+		Categoria categoria = findById(id);
+		categoria.setNome(dto.getNome());
+		categoria.setDescricao(dto.getDescricao());
+		return repository.save(categoria);
 	}
 }

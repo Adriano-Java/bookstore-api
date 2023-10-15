@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,12 +79,16 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	/*
-	 * Forma alternativa de persistir.
+	/**
+	 * Método que atualiza e persiste uma {@Categoria}.
+	 * 
+	 * @param id
+	 * @param dto
+	 * @return
 	 */
-//	@PostMapping
-//	public ResponseEntity<Categoria> create(@RequestBody Categoria cat) {
-//		cat = service.create(cat);
-//		return ResponseEntity.status(HttpStatus.CREATED).build();
-//	}
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO dto) {
+		Categoria novaCategoria = service.update(id, dto);
+		return ResponseEntity.ok().body(new CategoriaDTO(novaCategoria));
+	}
 }
