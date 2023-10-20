@@ -71,4 +71,14 @@ public class CategoriaService {
 		categoria.setDescricao(dto.getDescricao());
 		return repository.save(categoria);
 	}
+
+	/**
+	 * Método para apagar uma {@Categoria} existente.
+	 * 
+	 * @param id
+	 */
+	public void delete(Integer id) {
+		findById(id);
+		repository.deleteById(id);
+	}
 }
