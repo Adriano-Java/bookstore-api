@@ -42,4 +42,31 @@ public class LivroService {
 		categoriaService.findById(id_cat);
 		return repository.findAllByCategoriaIdOrderByTitulo(id_cat);
 	}
+
+	/**
+	 * Método que atualiza os dados de um {@link Livro}.
+	 * 
+	 * @param id
+	 * @param atualizacao
+	 * @return
+	 */
+	public Livro update(Integer id, Livro atualizacao) {
+		Livro livroAtualizado = findById(id);
+		updateData(livroAtualizado, atualizacao);
+		return repository.save(livroAtualizado);
+	}
+
+	private void updateData(Livro livroAtualizado, Livro atualizacao) {
+		if(atualizacao != null) {
+			if(atualizacao.getTitulo() != null) {
+				livroAtualizado.setTitulo(atualizacao.getTitulo());
+			}
+			if(atualizacao.getNomeDoAutor() != null) {
+				livroAtualizado.setNomeDoAutor(atualizacao.getNomeDoAutor());
+			}
+			if(atualizacao.getTexto() != null) {
+				livroAtualizado.setTexto(atualizacao.getTexto());
+			}
+		}
+	}
 }
