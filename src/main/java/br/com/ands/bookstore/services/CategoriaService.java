@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.ands.bookstore.domain.Categoria;
 import br.com.ands.bookstore.dtos.CategoriaDTO;
 import br.com.ands.bookstore.repositories.CategoriaRepository;
+import br.com.ands.bookstore.services.exceptions.DataIntegrityViolationException;
 import br.com.ands.bookstore.services.exceptions.ObjectNotFoundExcepiton;
 
 /**
@@ -79,6 +80,11 @@ public class CategoriaService {
 	 */
 	public void delete(Integer id) {
 		findById(id);
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (Exception e) {
+			throw new DataIntegrityViolationException("Categoria não pode ser excluída! "
+					+ "Há livros associados a essa categoria.");
+		}
 	}
 }
