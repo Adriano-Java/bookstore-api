@@ -85,4 +85,14 @@ public class LivroService {
 		livro.setCategoria(categoria);
 		return repository.save(livro);
 	}
+
+	/**
+	 * Método que exclui um {@link Livro} da base de dados.
+	 * 
+	 * @param id
+	 */
+	public void delete(Integer id) {
+		Livro livro = findById(id);
+		repository.delete(livro);
+	}
 }
