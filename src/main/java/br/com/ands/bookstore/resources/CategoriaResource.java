@@ -72,7 +72,7 @@ public class CategoriaResource {
 	@PostMapping
 	public ResponseEntity<Categoria> create(@RequestBody Categoria cat) {
 		cat = service.create(cat);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("{/id}").buildAndExpand(cat.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/categorias/{id}").buildAndExpand(cat.getId()).toUri();
 		/*
 		 * ResponseEntity.created(uri).body(object): retorna o objeto persistido no corpo da requisição.
 		 * ResponseEntity.created(uri).build(): retorna o objeto persistido no headers da requisição.
