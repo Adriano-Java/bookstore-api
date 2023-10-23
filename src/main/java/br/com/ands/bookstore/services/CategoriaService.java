@@ -74,7 +74,7 @@ public class CategoriaService {
 	}
 
 	/**
-	 * Método para apagar uma {@Categoria} existente.
+	 * Método para exclui uma {@Categoria} da base de dados.
 	 * 
 	 * @param id
 	 */

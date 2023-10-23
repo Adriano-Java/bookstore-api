@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 
@@ -25,8 +28,12 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message = "Campo NOME é requirido!")
+	@Length(min = 3, max = 100, message = "O campo NOME deve conter entre 3 a 100 caracteres!")
 	private String nome;
 	
+	@NotEmpty(message = "Campo DESCRIÇÃO é requirido!")
+	@Length(min = 3, max = 100, message = "O campo DESCRIÇÃO deve conter entre 3 a 100 caracteres!")
 	private String descricao;
 	
 	//relação uma categoria para muitos livros [aqui vai a variável categoria criada em {@Livro}
