@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,7 @@ import br.com.ands.bookstore.services.CategoriaService;
  * @date 12 de out. de 2023
  * @project bookstore-api
  */
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
@@ -70,9 +74,9 @@ public class CategoriaResource {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<Categoria> create(@RequestBody Categoria cat) {
+	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria cat) {
 		cat = service.create(cat);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("{/id}").buildAndExpand(cat.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/categorias/{id}").buildAndExpand(cat.getId()).toUri();
 		/*
 		 * ResponseEntity.created(uri).body(object): retorna o objeto persistido no corpo da requisição.
 		 * ResponseEntity.created(uri).build(): retorna o objeto persistido no headers da requisição.
@@ -88,13 +92,13 @@ public class CategoriaResource {
 	 * @return
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO dto) {
+	public ResponseEntity<CategoriaDTO> update(@Valid @PathVariable Integer id, @RequestBody CategoriaDTO dto) {
 		Categoria novaCategoria = service.update(id, dto);
 		return ResponseEntity.ok().body(new CategoriaDTO(novaCategoria));
 	}
 	
 	/**
-	 * Método que apaga uma {@Cateporia} existente por seu @param id.
+	 * Método que exclui uma {@Cateporia} da base de dados.
 	 * 
 	 * @param id
 	 * @return

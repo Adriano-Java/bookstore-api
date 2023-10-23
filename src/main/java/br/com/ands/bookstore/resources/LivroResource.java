@@ -1,19 +1,27 @@
 package br.com.ands.bookstore.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.ands.bookstore.domain.Categoria;
 import br.com.ands.bookstore.domain.Livro;
 import br.com.ands.bookstore.dtos.LivroDTO;
 import br.com.ands.bookstore.services.LivroService;
@@ -22,10 +30,13 @@ import br.com.ands.bookstore.services.LivroService;
  * Classe do tipo RestController responsável pelo gerenciamento dos livros
  * via end-points.
  * 
+ * Um livro é representadopelo objeto {@link Livro}.
+ * 
  * @author Adriano Neto Da Silva
  * @Date 21 de out. de 2023
  * @Project bookstore
  */
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/livros")
 public class LivroResource {
@@ -65,7 +76,7 @@ public class LivroResource {
 	 * @return
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Livro> update(@PathVariable Integer id, @RequestBody Livro livro) {
+	public ResponseEntity<Livro> update(@PathVariable Integer id, @Valid @RequestBody Livro livro) {
 		Livro livroAtualizado = service.update(id, livro);
 		return ResponseEntity.ok().body(livroAtualizado);
 	}
@@ -78,8 +89,37 @@ public class LivroResource {
 	 * @return
 	 */
 	@PatchMapping(value = "/atualiza/{id}")
-	public ResponseEntity<Livro> updatePath(@PathVariable Integer id, @RequestBody Livro livro) {
+	public ResponseEntity<Livro> updatePath(@PathVariable Integer id, @Valid @RequestBody Livro livro) {
 		Livro livroAtualizado = service.update(id, livro);
 		return ResponseEntity.ok().body(livroAtualizado);
+	}
+	
+	/**
+	 * Método que persiste um novo {@link Livro} na base de dados,
+	 * associando-o a uma {@link Categoria}.
+	 * 
+	 * @param id_cat
+	 * @param livro
+	 * @return
+	 */
+	@PostMapping
+	public ResponseEntity<Livro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat,
+			@Valid @RequestBody Livro livro) {
+		Livro novoLivro = service.create(id_cat, livro);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}")
+				.buildAndExpand(novoLivro.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	/**
+	 * Método que exclui um {@link Livro} da base de dados.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }

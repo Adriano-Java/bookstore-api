@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,10 +29,16 @@ public class Livro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message = "Campo TÍTULO é requirido!")
+	@Length(min = 3, max = 100, message = "O campo TÍTULO deve conter entre 3 a 100 caracteres!")
 	private String titulo;
 	
+	@NotEmpty(message = "Campo NOME DO AUTOR é requirido!")
+	@Length(min = 3, max = 100, message = "O campo NOME DO AUTOR deve conter entre 3 a 100 caracteres!")
 	private String nomeDoAutor;
 	
+	@NotEmpty(message = "Campo TEXTO é requirido!")
+	@Length(min = 10, max = 2000000, message = "O campo TEXTO deve conter entre 10 a 2000000 caracteres!")
 	private String texto;
 	
 	@JsonIgnore
